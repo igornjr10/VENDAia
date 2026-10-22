@@ -1,0 +1,50 @@
+import React, {useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import {Bot,ArrowUpRight,Check,MessageCircle,Clock3,Menu,X,Send,Zap,ShieldCheck,ChevronDown,TrendingUp} from 'lucide-react';
+import './style.css';
+
+const salesNumber=(import.meta.env.VITE_SALES_WHATSAPP||'').replace(/\D/g,'');
+const benefits=[
+ {icon:Clock3,title:'Atenda 24 horas por dia',body:'A VendaIA responde perguntas frequentes e acolhe novos contatos mesmo fora do horário comercial.'},
+ {icon:Bot,title:'Qualifique seus leads',body:'Identifique o interesse de cada cliente e reúna informações importantes antes de envolver a equipe.'},
+ {icon:TrendingUp,title:'Ganhe tempo para vender',body:'Automatize conversas repetitivas para que seu time se concentre nas oportunidades.'}
+];
+const plans=[
+ {name:'Start',price:97,description:'Para empresas começarem a automatizar o atendimento.',features:['Perguntas frequentes','Fluxo de atendimento personalizado','Captura de dados de interessados','Configuração assistida'],featured:false},
+ {name:'Pro',price:297,description:'Para equipes que desejam automatizar e qualificar oportunidades.',features:['Tudo do plano Start','Qualificação de leads','Encaminhamento para vendedores','Integrações conforme escopo'],featured:true}
+];
+const answers=[
+ ['Quanto custa?','Temos o Start por R$ 97/mês e o Pro por R$ 297/mês. A implantação é cobrada separadamente.'],
+ ['A IA responde fora do expediente?','Sim! Os fluxos podem atender perguntas frequentes 24 horas por dia.'],
+ ['Quero falar com um vendedor','Claro! Vou coletar algumas informações para encaminhar você ao responsável.']
+];
+const faqs=[
+ ['Preciso trocar meu número de WhatsApp?','Depende da integração e da situação atual do número. Avaliamos isso na implantação.'],
+ ['A implantação está incluída?','Não. A implantação é cobrada à parte conforme o escopo apresentado em proposta.'],
+ ['Posso cancelar?','As condições de contratação, alteração de planos e cancelamento serão informadas antes da assinatura.'],
+ ['A IA já atende pelo WhatsApp?','Este site demonstra o produto. A integração real depende de ativação, credenciais e contratação.']
+];
+function App(){
+ const [menu,setMenu]=useState(false);
+ const [selected,setSelected]=useState<number|null>(null);
+ const [question,setQuestion]=useState(0);
+ const [form,setForm]=useState({name:'',company:'',whatsapp:''});
+ const [message,setMessage]=useState('');
+ const [saved,setSaved]=useState(false);
+ const sendLead=(e:React.FormEvent)=>{e.preventDefault();const msg='Olá, quero conhecer a VendaIA!\nNome: '+form.name+'\nEmpresa: '+form.company+'\nWhatsApp: '+form.whatsapp;if(salesNumber){window.open('https://wa.me/'+salesNumber+'?text='+encodeURIComponent(msg),'_blank','noopener,noreferrer')}else{setMessage(msg);setSaved(false)}};
+ return <div className="app">
+  <header className="header wrap"><a className="logo" href="#inicio"><span className="logo-mark">✦</span>venda<span>IA</span><b>.</b></a><nav className={menu?'nav open':'nav'}><a onClick={()=>setMenu(false)} href="#beneficios">Recursos</a><a onClick={()=>setMenu(false)} href="#como">Como funciona</a><a onClick={()=>setMenu(false)} href="#planos">Planos</a><a onClick={()=>setMenu(false)} href="#faq">Dúvidas</a></nav><a className="button nav-cta" href="#contato">Agendar demonstração <ArrowUpRight size={17}/></a><button className="menu-toggle" onClick={()=>setMenu(!menu)} aria-label="Abrir menu">{menu?<X/>:<Menu/>}</button></header>
+  <main>
+   <section className="hero wrap" id="inicio"><div className="hero-content"><span className="eyebrow"><Zap size={14}/> ATENDIMENTO INTELIGENTE PARA NEGÓCIOS</span><h1>Sua empresa não pode <em>parar de vender</em> quando você <span>para de responder.</span></h1><p>Transforme conversas em oportunidades com uma IA que atende seus clientes, qualifica leads e ajuda sua equipe a vender mais. <strong>24 horas por dia, 7 dias por semana.</strong></p><div className="hero-actions"><a className="button" href="#contato">Quero uma IA na minha empresa <ArrowUpRight size={17}/></a><a className="button-secondary" href="#demonstracao">Ver demonstração →</a></div><small className="trust"><ShieldCheck size={17}/> Mais velocidade no atendimento. Mais tempo para o que importa.</small></div>
+   <div className="chat-window" id="demonstracao"><div className="chat-header"><span className="bot-avatar"><Bot/></span><div><b>VendaIA ✓</b><small>● Assistente online</small></div></div><div className="chat-body"><div className="bubble assistant">Olá! 👋 Seja bem-vindo(a)! Sou a assistente virtual da VendaIA. Como posso te ajudar?</div>{selected!==null&&<><div className="bubble user">{answers[selected][0]}</div><div className="bubble assistant">{answers[selected][1]}</div></>}</div><div className="chat-bottom"><small>Experimente a demonstração</small><div className="chat-options">{answers.map(([q],i)=><button key={q} onClick={()=>setSelected(i)}>{q}</button>)}</div><div className="chat-placeholder">Digite sua mensagem... <Send size={18}/></div><small className="demo-label">Simulação: não envia mensagens reais.</small></div></div></section>
+   <section className="stripe"><div className="wrap stripes"><span>ATENDIMENTO</span><span>QUALIFICAÇÃO</span><span>AUTOMAÇÃO</span><span>OPORTUNIDADES</span></div></section>
+   <section className="section wrap" id="beneficios"><div className="section-head"><span className="tag">O QUE A VENDAIA FAZ</span><h2>Uma IA trabalhando.<br/><span>Seu negócio avançando.</span></h2><p>Uma experiência mais ágil para quem compra. Uma operação mais inteligente para quem vende.</p></div><div className="benefits">{benefits.map(({icon:Icon,title,body},i)=><article className="benefit" key={title}><div className="benefit-icon"><Icon size={28}/></div><small>0{i+1} / 03</small><h3>{title}</h3><p>{body}</p></article>)}</div></section>
+   <section className="section wrap how" id="como"><div className="section-head"><span className="tag">SIMPLES DE COMEÇAR</span><h2>Do primeiro contato<br/><span>à próxima venda.</span></h2></div><div className="steps"><article><b>01</b><h3>Entendemos seu negócio</h3><p>Mapeamos serviços, dúvidas e objetivos comerciais.</p></article><article><b>02</b><h3>Configuramos sua IA</h3><p>Preparamos os fluxos de conversa para o atendimento.</p></article><article><b>03</b><h3>Você ganha escala</h3><p>A IA atende e encaminha oportunidades para sua equipe.</p></article></div></section>
+   <section className="mid-cta"><div className="wrap cta-content"><div><span className="tag">CHEGA DE PERDER OPORTUNIDADES</span><h2>Você cuida do crescimento.<br/><span>A IA cuida das primeiras conversas.</span></h2></div><a href="#contato" className="button">Conhecer a VendaIA <ArrowUpRight size={17}/></a></div></section>
+   <section className="section wrap" id="planos"><div className="section-head"><span className="tag">PLANOS MENSAIS</span><h2>Uma solução para a<br/><span>fase do seu negócio.</span></h2><p>Comece com o essencial e evolua seu atendimento conforme a empresa cresce.</p></div><div className="plans">{plans.map(plan=><article className={plan.featured?'plan featured':'plan'} key={plan.name}>{plan.featured&&<div className="popular">MAIS COMPLETO</div>}<span className="tag">VENDAIA {plan.name.toUpperCase()}</span><h3>{plan.name}</h3><p>{plan.description}</p><div className="price"><b>R$ {plan.price}</b><span>/mês</span></div><ul>{plan.features.map(f=><li key={f}><Check size={18}/>{f}</li>)}</ul><a href="#contato" className={plan.featured?'button':'button outline'}>Conhecer {plan.name} <ArrowUpRight size={17}/></a></article>)}</div><p className="pricing-disclaimer"><ShieldCheck size={17}/> Implantação cobrada separadamente conforme proposta. Condições, limites de uso e suporte apresentados antes da contratação.</p></section>
+   <section className="section wrap faq-section" id="faq"><div><span className="tag">DÚVIDAS FREQUENTES</span><h2>Ficou alguma<br/><span>dúvida?</span></h2><p>Respostas para começar com segurança.</p></div><div className="faq-items">{faqs.map(([q,a],i)=><div className="faq-item" key={q}><button onClick={()=>setQuestion(question===i?-1:i)} aria-expanded={question===i}>{q}<ChevronDown size={18}/></button>{question===i&&<p>{a}</p>}</div>)}</div></section>
+   <section className="section wrap" id="contato"><div className="contact"><div><span className="tag">VAMOS CONVERSAR?</span><h2>Seu próximo cliente pode estar <span>digitando agora.</span></h2><p>Conte um pouco sobre sua empresa e conheça a proposta da VendaIA.</p><div className="contact-points"><p><Check size={18}/> Conversa sem compromisso</p><p><Check size={18}/> Proposta adaptada à empresa</p></div></div><form onSubmit={sendLead}><h3>Solicitar demonstração</h3><label>Seu nome<input required value={form.name} maxLength={100} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Como podemos te chamar?"/></label><label>Nome da empresa<input required maxLength={100} value={form.company} onChange={e=>setForm({...form,company:e.target.value})} placeholder="Sua empresa"/></label><label>WhatsApp<input required type="tel" maxLength={22} value={form.whatsapp} onChange={e=>setForm({...form,whatsapp:e.target.value})} placeholder="(99) 99999-9999"/></label><button className="button" type="submit">Solicitar demonstração <ArrowUpRight size={17}/></button><small>Os dados não são armazenados neste site.</small>{message&&<div className="fallback"><b>Mensagem preparada</b><p>Configure VITE_SALES_WHATSAPP para direcionar ao número comercial.</p><textarea readOnly value={message}/><button type="button" onClick={async()=>{try{await navigator.clipboard.writeText(message);setSaved(true)}catch{setSaved(false)}}}>{saved?'Copiado!':'Copiar mensagem'}</button></div>}</form></div></section>
+  </main><footer className="wrap footer"><a href="#inicio" className="logo"><span className="logo-mark">✦</span>venda<span>IA</span><b>.</b></a><p>Atendimento inteligente. Conversas que viram oportunidades.</p><small>© {new Date().getFullYear()} VendaIA. Todos os direitos reservados.</small></footer>
+ </div>
+}
+createRoot(document.getElementById('root')!).render(<React.StrictMode><App/></React.StrictMode>);
