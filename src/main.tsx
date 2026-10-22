@@ -1,3 +1,4 @@
+import {Dashboard} from './dashboard';
 import {TrialPortal} from './trial';
 import {MotionSections} from './motion';
 import {OmniInbox,OmniChannels,OmniIntegrations} from './omnichannel';
@@ -51,4 +52,4 @@ function App(){
   </main><footer className="wrap footer"><a href="#inicio" className="logo"><span className="logo-mark">✦</span>venda<span>IA</span><b>.</b></a><p>Atendimento inteligente. Conversas que viram oportunidades.</p><small>© {new Date().getFullYear()} VendaIA. Todos os direitos reservados.</small></footer>
  </div>
 }
-createRoot(document.getElementById('root')!).render(<React.StrictMode>{window.location.pathname.replace(/\/$/,'')==='/teste'?<TrialPortal/>:<App/>}</React.StrictMode>);
+createRoot(document.getElementById('root')!).render(<React.StrictMode>{window.location.pathname.replace(/\/$/,'')==='/painel'?<Dashboard/>:window.location.pathname.replace(/\/$/,'')==='/teste'?<TrialPortal/>:<App/>}</React.StrictMode>);
