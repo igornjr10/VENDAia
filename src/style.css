@@ -49,3 +49,5 @@ body{background:#080e19}
 @keyframes vaPulse{0%,100%{box-shadow:0 0 0 5px #65dcb61b}50%{box-shadow:0 0 0 9px #65dcb608}}
 @media(max-width:950px){.hero h1{font-size:45px;letter-spacing:-2.2px}.problem-grid,.trust-grid{grid-template-columns:1fr}.problem-grid article,.trust-grid article{padding:24px}}
 @media(max-width:700px){.hero{padding-top:55px;gap:42px}.hero h1{font-size:clamp(38px,9vw,55px);letter-spacing:-2px}.hero-channel-tags{justify-content:center}.chat-window{transform:none}.problem-section{padding-top:70px;padding-bottom:65px}.segment-tags span{font-size:11px;padding:12px 14px}}
+
+.trial-banner{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:890px;margin:0 auto 24px;padding:27px 30px;border:1px solid #5c8bff;border-radius:18px;background:linear-gradient(105deg,#1c3158,#151e37);box-shadow:0 16px 60px #2c65cf22}.trial-banner strong{font:800 21px Manrope,sans-serif}.trial-banner p{color:#b4c5e6;font-size:12px;line-height:1.7;margin:8px 0 0;max-width:475px}.trial-banner .button{flex-shrink:0}@media(max-width:700px){.trial-banner{flex-direction:column;align-items:flex-start;padding:24px}.trial-banner .button{width:100%}}
